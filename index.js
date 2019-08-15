@@ -17,7 +17,16 @@ const io = socketio(server);
 io.on('connection', socket => {
     console.log('a socket connection was made:', socket.id);
 
+    // handling events
     socket.on('chat', data => {
         io.emit('chat', data);
+    });
+
+    socket.on('typing', data => {
+        socket.broadcast.emit('typing', data);
+    });
+
+    socket.on('stoppedTyping', () => {
+        socket.broadcast.emit('stoppedTyping');
     });
 });
