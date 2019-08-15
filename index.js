@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 const express = require('express');
-const socket = require('socket.io');
+const socketio = require('socket.io');
 
 // setting up app
 const app = express();
@@ -13,7 +13,11 @@ const server = app.listen(3000, () => {
 app.use(express.static('public'));
 
 // setting up socket
-const io = socket(server);
+const io = socketio(server);
 io.on('connection', socket => {
     console.log('a socket connection was made:', socket.id);
+
+    socket.on('chat', data => {
+        io.emit('chat', data);
+    });
 });
