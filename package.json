@@ -1,0 +1,22 @@
+{
+  "name": "websockets-chat-app",
+  "version": "1.0.0",
+  "description": "A message app using socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rmihaja/websockets-playlist.git"
+  },
+  "author": "Mihaja Razafimahefa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rmihaja/websockets-playlist/issues"
+  },
+  "homepage": "https://github.com/Rmihaja/websockets-playlist#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
