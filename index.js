@@ -1,19 +1,24 @@
 /* eslint-disable no-console */
 
 const express = require('express');
+const fs = require('fs');
+const https = require('https');
 const socketio = require('socket.io');
 
 // setting up app
 const app = express();
-const server = app.listen(3000, () => {
-    console.log('app now listen on port 3000');
-});
+const options = {
+    key: fs.readFileSync('./file.pem'),
+    cert: fs.readFileSync('./file.crt'),
+};
+const serverPort = 443;
+const server = https.createServer(options, app);
+const io = socketio(server);
 
 // static files
 app.use(express.static('public'));
 
 // setting up socket
-const io = socketio(server);
 io.on('connection', socket => {
     console.log('a socket connection was made:', socket.id);
 
@@ -29,4 +34,8 @@ io.on('connection', socket => {
     socket.on('stoppedTyping', () => {
         socket.broadcast.emit('stoppedTyping');
     });
+});
+
+server.listen(serverPort, () => {
+    console.log(`server up and running at port ${serverPort}`);
 });

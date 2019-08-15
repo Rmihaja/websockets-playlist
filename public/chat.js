@@ -1,5 +1,6 @@
 // making connection
-const socket = io.connect('http://localhost:3000');
+// eslint-disable-next-line no-undef
+const socket = io.connect('https://192.168.1.15:443');
 
 // query DOM
 const handle = document.querySelector('#handle');
@@ -8,16 +9,21 @@ const sendBtn = document.querySelector('#send');
 const output = document.querySelector('#output');
 const feedback = document.querySelector('#feedback');
 
-// emiting events
-sendBtn.addEventListener('click', () => {
+const sendMessage = () => {
     socket.emit('chat', {
         message: message.value,
         handle: handle.value,
     });
-});
+    message.value = '';
+    socket.emit('stoppedTyping');
+};
 
-message.addEventListener('keydown', () => {
+// emiting events
+sendBtn.addEventListener('click', sendMessage);
+
+message.addEventListener('keydown', event => {
     socket.emit('typing', handle.value);
+    if (event.keyCode === 13) return sendMessage();
 });
 
 message.addEventListener('blur', () => {
